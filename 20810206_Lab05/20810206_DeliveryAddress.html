@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    form, input, textarea {
+      width: 300px;
+    }
+    input, textarea {
+      margin: 0 0 7px 0;
+      border: 1px solid cadetblue;
+      outline: none;
+      min-height: 32px;
+    }
+    input:focus:invalid, textarea:focus:invalid {
+      border-color: red;
+      box-shadow: 0 0 3px 1px red;
+    }
+    button {
+      background: #67c5c8;
+      border: 1px solid #67c5c8;
+      color: #fff;
+      padding: 3px 10px;
+      cursor: pointer;
+      width: 300px;
+      height: 32px;
+    }
+    fieldset {
+      padding: 20px;
+    }
+  </style>
+
+  <form action="" method="get">
+    <fieldset>
+      <legend>Delivery Address</legend>
+      <input 
+        type="text" name="name" placeholder="Full name"
+        required
+        oninput="this.setCustomValidity('')"
+        oninvalid="this.setCustomValidity('Please enter your name!')"  
+        /><br>
+      <input 
+        type="tel" name="phoneNumber" placeholder="Phone number"
+        required
+        oninput="this.setCustomValidity('')"
+        oninvalid="this.setCustomValidity('Please enter correct phone number! \(+84123456789\)')"
+        pattern="^\+[0-9]{10,12}$"
+        /><br>
+      <input 
+        type="text" name="address" placeholder="Address"
+        required
+        oninput="this.setCustomValidity('')"
+        oninvalid="this.setCustomValidity('Please enter your address!')"  
+        /><br>
+  
+      <button type="submit">Submit</button>
+    </fieldset>
+  </form>  
+</body>
+</html>

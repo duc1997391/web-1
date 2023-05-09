@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    form, input, textarea {
+      width: 300px;
+    }
+    input, textarea {
+      margin: 0 0 7px 0;
+      border: 1px solid cadetblue;
+      outline: none;
+      min-height: 32px;
+    }
+    input:focus:invalid, textarea:focus:invalid {
+      border-color: red;
+      box-shadow: 0 0 3px 1px red;
+    }
+    button {
+      background: #67c5c8;
+      border: 1px solid #67c5c8;
+      color: #fff;
+      padding: 3px 10px;
+      cursor: pointer;
+      width: 300px;
+      height: 32px;
+    }
+    fieldset {
+      padding: 20px;
+    }
+  </style>
+
+  <form action="" method="get">
+    <fieldset>
+      <legend>Register</legend>
+      <input 
+        type="text" name="userName" placeholder="Username"
+        required
+        oninput="this.setCustomValidity('')"
+        oninvalid="this.setCustomValidity('Please enter username!')"  
+        /><br>
+      <input 
+        type="password" name="password" placeholder="Password" id="password"
+        required
+        oninput="this.setCustomValidity('')"
+        oninvalid="this.setCustomValidity('Please enter password!')"  
+        /><br>
+      <input 
+        type="password" name="confirmPassword" placeholder="Confirm Password" id="password_confirm"
+        required
+        oninput="this.setCustomValidity('')"
+        /><br>
+      <input type="email" name="email" placeholder="Email"
+        required
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+        oninput="this.setCustomValidity('')"
+        oninvalid="this.setCustomValidity('Please enter valid email!')"  
+        /><br>
+  
+      <button type="submit">Create Account</button>
+    </fieldset>
+    <script src="validation.js"></script>
+  </form>  
+</body>
+</html>

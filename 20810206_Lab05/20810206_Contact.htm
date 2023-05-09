@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    .submit-ctn {
+      text-align: right;
+    }
+    form, input, textarea {
+      width: 300px;
+    }
+    input, textarea {
+      margin: 0 0 7px 0;
+      border: 1px solid cadetblue;
+      outline: none;
+    }
+    input:required:invalid, textarea:required:invalid,
+    input:focus:invalid, textarea:focus:invalid {
+      border-color: red;
+      box-shadow: 0 0 3px 0 red;
+    }
+    button {
+      background: #67c5c8;
+      border: 1px solid #67c5c8;
+      color: #fff;
+      padding: 3px 10px;
+      cursor: pointer;
+    }
+  </style>
+
+  <form action="" method="get">
+    <input 
+      type="text" name="name" required placeholder="Name"
+      oninput="this.setCustomValidity('')"
+      oninvalid="this.setCustomValidity('Please enter your name!')"
+      /><br>
+    <input
+      type="email" name="email" required placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+      oninput="this.setCustomValidity('')"
+      oninvalid="this.setCustomValidity('Please match the requested format.')"
+      /><br>
+    <input 
+      type="text" name="subject" required placeholder="Subject"
+      oninput="this.setCustomValidity('')"
+      oninvalid="this.setCustomValidity('Please enter subject!')"
+      /><br>
+    <textarea
+      name="message" required placeholder="Message"
+      oninput="this.setCustomValidity('')"
+      oninvalid="this.setCustomValidity('Please enter message!')"      
+      ></textarea><br>
+
+    <div class="submit-ctn">
+      <button type="submit">Send</button>
+    </div>
+  </form>  
+</body>
+</html>

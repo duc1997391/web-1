@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart</title>
+</head>
+<body>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    input, textarea {
+      width: 50px;
+    }
+    input, textarea {
+      margin: 0 0 7px 0;
+      border: 1px solid cadetblue;
+      outline: none;
+      min-height: 32px;
+    }
+    input:focus:invalid, textarea:focus:invalid {
+      border-color: red;
+      box-shadow: 0 0 3px 1px red;
+    }
+    button {
+      background: #67c5c8;
+      border: 1px solid #67c5c8;
+      color: #fff;
+      padding: 3px 10px;
+      cursor: pointer;
+      width: 62px;
+      height: 32px;
+    }
+    fieldset {
+      padding: 20px;
+    }
+    h5 {
+      font-size: 20px;
+      margin: 0 0 5px 0;
+    }
+    .pd {
+      margin: 0 0 20px;
+    }
+  </style>
+
+  <div>
+    <h1>Cart</h1>
+      <div class="pd">
+        <h5>Nike Air Force 1 '07 LV8</h5>
+        <form action="" method="get">
+          <span>Quantity: </span>
+          <input type="hidden" name="pdId" value="001">
+          <input type="number" name="quantity" value="1" min="1" max="10" required>
+          <button type="submit">Save</button>
+        </form>
+      </div>
+      <div class="pd">
+        <h5>Nike Dunk Low Retro Premium</h5>
+        <form action="" method="get">
+          <span>Quantity: </span>
+          <input type="hidden" name="pdId" value="002">
+          <input type="number" name="quantity" value="3" min="1" max="10" required>
+          <button type="submit">Save</button>
+        </form>
+      </div>
+      <div class="pd">
+        <h5>Nike Air Force 1 '07 LV8</h5>
+        <form action="" method="get">
+          <span>Quantity: </span>
+          <input type="hidden" name="pdId" value="003">
+          <input type="number" name="quantity" value="1" min="1" max="10" required>
+          <button type="submit">Save</button>
+        </form>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
