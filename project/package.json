@@ -1,0 +1,16 @@
+{
+  "name": "web-1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:duc1997391/web-1.git",
+  "author": "duc.tran <duc199739100@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "stylus": "stylus -w style.styl -o style.css",
+    "sass": "node-sass -w style.scss style.css --output-style expanded"
+  },
+  "dependencies": {
+    "node-sass": "^8.0.0",
+    "stylus": "^0.59.0"
+  }
+}
