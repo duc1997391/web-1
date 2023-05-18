@@ -101,3 +101,10 @@ footer {
     }
   }
 }
+
+#form-login {
+  button[type='submit'] {
+    background-color: var(--web1-blue);
+    color: white;
+  }
+}
