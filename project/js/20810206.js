@@ -3,8 +3,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 });
 
 function activeMenu() {
-  const href = window.location.pathname.split("/").pop();
-  console.log(href)
+  const href = window.location.pathname.split("/").pop() || 'index.html';
   const menuIds = ["app-menu", "menu-footer"];
 
   menuIds.forEach((id) => {
