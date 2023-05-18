@@ -70,3 +70,34 @@ $fontFamily: 'Changa One', cursive;
 .read-more{
   color: var(--web1-blue);
 }
+
+#about {
+  background: var(--web1-pink);
+  #formSignup {
+    border-style: dashed !important;
+    border-color: rgba($color: #000000, $alpha: 0.5) !important;
+  }
+}
+
+#news {
+  .date {
+    background: var(--web1-green);
+  }
+}
+
+footer {
+  background: url('../images/bg-footer.gif');
+}
+
+#menu-footer {
+  a {
+    color: white;
+    font-weight: bold;
+    font-family: $fontFamily;
+    display: block;
+    padding: 0 2rem;
+    &.active {
+      color: var(--web1-pink)
+    }
+  }
+}

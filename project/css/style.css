@@ -71,3 +71,32 @@
 .read-more {
   color: var(--web1-blue);
 }
+
+#about {
+  background: var(--web1-pink);
+}
+
+#about #formSignup {
+  border-style: dashed !important;
+  border-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+#news .date {
+  background: var(--web1-green);
+}
+
+footer {
+  background: url("../images/bg-footer.gif");
+}
+
+#menu-footer a {
+  color: white;
+  font-weight: bold;
+  font-family: "Changa One", cursive;
+  display: block;
+  padding: 0 2rem;
+}
+
+#menu-footer a.active {
+  color: var(--web1-pink);
+}
