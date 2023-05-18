@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "stylus": "stylus -w style.styl -o style.css",
-    "sass": "node-sass -w style.scss style.css --output-style expanded"
+    "sass": "node-sass -w css/style.scss css/style.css --output-style expanded"
   },
   "dependencies": {
     "node-sass": "^8.0.0",
