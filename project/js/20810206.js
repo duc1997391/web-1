@@ -18,3 +18,14 @@ function activeMenu() {
     }
   });
 }
+
+async function loadData (path, templateId, containerId) {
+  const API = `https://web1-api.vercel.app/api/`
+  const response = await fetch(API + path)
+  const data = await response.json()
+
+  const source = document.getElementById(templateId).innerHTML;
+  const template = Handlebars.compile(source)
+  const html = template({ data })
+  document.getElementById(containerId).innerHTML = html
+}

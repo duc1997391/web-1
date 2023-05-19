@@ -6,6 +6,10 @@
 
 $fontFamily: 'Changa One', cursive;
 
+.web1-text-blue {
+  color: var(--web1-blue);
+}
+
 #app-menu {
   a {
     font-weight: 700;
@@ -82,6 +86,8 @@ $fontFamily: 'Changa One', cursive;
 #news {
   .date {
     background: var(--web1-green);
+    width: 6rem;
+    padding: 1.5 rem;
   }
 }
 
@@ -106,5 +112,18 @@ footer {
   button[type='submit'] {
     background-color: var(--web1-blue);
     color: white;
+  }
+}
+
+#banner-small {
+  background: url('../images/bg-banner.gif');
+  padding: 5px;
+}
+
+#testimonials {
+  background: var(--web1-pink);
+  .col {
+    background: url('../images/quot.png') left top no-repeat;
+    padding-left: 3rem;
   }
 }
