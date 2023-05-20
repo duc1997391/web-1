@@ -125,3 +125,7 @@ footer {
   background: url("../images/quot.png") left top no-repeat;
   padding-left: 3rem;
 }
+
+#about-ctn h4 {
+  color: black;
+}
