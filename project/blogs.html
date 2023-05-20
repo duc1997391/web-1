@@ -70,9 +70,25 @@
         </nav>
     </header>
 
-    <section class="container py-5">
-        <h1>Blogs</h1>
-    </section>
+    <section id="banner-small"></section>
+
+    <main id="content">
+        <section id="banner-small"></section>
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-8">
+                    <h1>Blogs</h1>
+                    <div class="py-4" id="blog-ctn">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <h1>Categories</h1>
+                    <ul class="py-4 ps-0" id="blog-cat">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <footer class="text-center container-fluid text-white py-3">
         <ul class="nav justify-content-center py-3" id="menu-footer">
@@ -126,6 +142,7 @@
 
     <script src="js/20810206.js"></script>
 
+
     <!-- bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
@@ -134,6 +151,169 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
         integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
         </script>
+
+    <!-- handlebars -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
+        integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="js/handlebars-pagination-helper.js"></script>
+
+    <script>
+        async function loadBlogs (path, page = 1) {
+            const API = `https://web1-api.vercel.app/api/`
+            const response = await fetch(API + path + `?page=${page}`)
+            const data = await response.json();
+            data.page = page;
+            data.path = path;
+
+            const source = document.getElementById('blog-template').innerHTML;
+            const template = Handlebars.compile(source);
+            const html = template(data);
+            document.getElementById('blog-ctn').innerHTML = html;
+        }
+        Handlebars.registerHelper('formatDate', function (date) {
+            const newDate = new Date(date);
+            const options = {
+                weekday: 'short',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                timeZoneName: 'short'
+            };
+            return newDate.toLocaleString('en-US', options)
+        });
+        async function loadBlogsDetail (blogId, gotoComments = false) {
+            await loadData(`blogs/${blogId}`, 'detail-template', 'blog-ctn');
+            if (gotoComments) {
+                window.location.href = '#comments';
+            }
+        }
+    </script>
+
+    <!-- load blog category  -->
+    <script id="blog-cat-template" type="text/x-handlebars-template">
+        {{#each data}}
+        <li>
+            <a 
+                href="#" class="text-black-50 text-decoration-none"
+                onclick="loadBlogs('blogs/categories/{{id}}')"
+            >{{name}}</a>
+        </li>
+        {{/each}}
+    </script>
+    <script>
+        loadData('blogs-categories', 'blog-cat-template', 'blog-cat')
+    </script>
+
+     <!-- load blog  -->
+     <script id="blog-template" type="text/x-handlebars-template">
+        {{#each data}}
+        <div class="clearfix py-3">
+            <h3>{{name}}</h3>
+            <p class="text-black-50">
+                by {{author}} in
+                <a href="#">{{category.name}}</a>
+                 on {{formatDate date}}.
+                <a href="#" onclick="loadBlogsDetail('{{id}}', true)">comments ({{comments.length}})</a>
+            </p>
+            <img src="{{thumbpath}}" alt="" class="float-start me-3 border border-4">
+            <p class="text-black-50">{{summary}}</p>
+            <a href="#" class="btn btn-link read-more ps-0" onclick="loadBlogsDetail('{{id}}')">Read more</a>
+        </div>
+        {{/each}}
+        {{#pagination page pageCount}}
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                {{#each pages}}
+                {{#if isCurrent}}
+                <li class="page-item disabled" aria-current="page">
+                    <a class="page-link" href="#" onclick="loadBlogs('{{../../path}}', {{page}})">{{page}}</a>
+                </li>
+                {{/if}}
+                {{#unless isCurrent}}
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="loadBlogs('{{../../path}}', {{page}})">{{page}}</a>
+                </li>
+                {{/unless}}
+                {{/each}}
+            </ul>
+        </nav>
+        {{/pagination}}
+    </script>
+    <script>
+        loadBlogs('blogs')
+    </script>
+
+    <!-- load detail -->
+    <script id="detail-template" type="text/x-handlebars-template">
+        {{#each data}}
+        <h3 class="py-3">{{name}}</h3>
+        <p class="text-black-50">
+            by {{author}} in
+            <a href="#">{{category.name}}</a>
+                on {{formatDate date}}.
+            <a href="#">comments ({{comments.length}})</a>
+        </p>
+        <img src="{{imagepath}}" alt="{{name}}" class="float-start me-3 rounded-4">
+        <div class="clearfix text-black-50">{{{description}}}</div>
+        <div class="py-3">
+            <h3>Leave your comments</h3>
+            <form action="#" method="post" class="text-black-50">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="mb-3">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name (Required)</label>
+                                <input type="text" class="form-control" name="name" id="" placeholder="" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="mb-3">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Name</label>
+                                <input type="email" class="form-control" name="email" id="" placeholder=""
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="mb-3">
+                        <textarea name="message" id="message" rows="3" class="form-control" placeholder="Enter your  message" required></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" required value="1" id="agree" name="agree">
+                            <label class="form-check-label" for="">
+                            Agree to terms and conditions
+                            </label>
+                        </div>
+                        <div class="col text-end">
+                            <button type="submit" class="btn btn-link py-0 my-0">Submit Comment</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <a name="comments"></a>
+        <div class="bg-dark text-white-50 p-2">
+            COMMENTS ({{comments.length}})
+        </div>
+        <div class="py-3 text-black-50">
+            {{#each comments}}
+            <div>
+                <p>{{name}} - {{formatDate date}}</p>
+                <p>{{summary}}</p>
+                <hr>
+            </div>
+            {{/each}}
+        </div>
+        {{/each}}
+    </script>
 </body>
 
 </html>

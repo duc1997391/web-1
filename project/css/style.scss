@@ -133,3 +133,11 @@ footer {
     color: black;
   }
 }
+
+#blog-cat {
+  li {
+    list-style-type: none;
+    background: url('../images/marker1.png') left 0.25rem no-repeat;
+    padding: 0 0 0.75rem 1.5rem;
+  }
+}
