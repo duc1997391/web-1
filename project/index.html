@@ -71,7 +71,8 @@
         </nav>
     </header>
 
-    <main id="page-content">
+    <main id="content"></main>
+    <main id="main-content">
         <section class="container-fluid" id="banner">
             <div class="container text-center text-white">
                 <div id="banner-crs" class="carousel slide" data-bs-ride="carousel">
@@ -236,15 +237,12 @@
                 >
                 <h3>{{name}}</h3>
                 <p class="mb-0 text-black-50">{{summary}}</p>
-                <a href="#" class="read-more btn btn-link" onclick="loadData('products/{{id}}', 'details-template', 'page-content')">Read more</a>
+                <a href="#products/{{id}}" class="read-more btn btn-link" onclick="loadDetail('products/{{id}}', 'details-template', 'content')">Read more</a>
             </div>
             {{/each}}
         </div>
     </script>
-    <script>
-        loadData('products', 'products-template', 'products')
-    </script>
-
+   
     <!-- load news -->
     <script id="news-template" type="text/x-handlebars-template">
         <div class="row" news>
@@ -256,7 +254,7 @@
                             {{date}}
                         </h3>
                     </div>
-                    <a href="#" class="btn btn-link read-more ps-0" onclick="loadData('news/{{id}}', 'details-template', 'page-content')">
+                    <a href="#news/{{id}}" class="btn btn-link read-more ps-0" onclick="loadDetail('news/{{id}}', 'details-template', 'content')">
                         Read more
                     </a>
                 </div>
@@ -267,9 +265,6 @@
             </div>
             {{/each}}
         </div>
-    </script>
-    <script>
-        loadData('news', 'news-template', 'news-ctn')
     </script>
 
     <!-- load detail -->
@@ -282,8 +277,37 @@
         </section>
         {{/each}}
     </script>
+
     <script>
-        loadData('news', 'news-template', 'news-ctn')
+        if (!location.hash || location.hash === '#') {
+            loadPage();
+        } else {
+            loadDetail(location.hash.substr(1), 'details-template', 'content')
+        }
+        function loadPage() {
+            document.getElementById('main-content').style.display = 'block'
+            document.getElementById('content').style.display = 'none'
+            loadData('news', 'news-template', 'news-ctn')
+            loadData('products', 'products-template', 'products')
+        }
+        history.replaceState({loadPage: 1}, null, location.href)
+
+        async function loadDetail(request, templateId, viewId) {
+            document.getElementById('main-content').style.display = 'none'
+            document.getElementById('content').style.display = 'block'
+
+            await loadData(request, templateId, viewId);
+            history.replaceState({request, templateId, viewId}, null, location.href)
+        }
+
+        window.onpopstate = (e) => {
+            const state = e.state;
+            if (state && state.loadPage) {
+                loadPage()
+            } else if (state && state.request) {
+                loadDetail(state.request, state.templateId, state.viewId);
+            }
+        }
     </script>
 </body>
 
