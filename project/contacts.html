@@ -47,7 +47,7 @@
                             <a class="nav-link" href="about.html">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="gallery.html">Gallery</a>`
+                            <a class="nav-link" href="gallery.html">Gallery</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="blogs.html">Blogs</a>
@@ -136,17 +136,23 @@
                       <label for="" class="form-label">Message *</label>
                       <textarea class="form-control" name="message" id="message" rows="3" required></textarea>
                     </div>
-                    <div class="text-end">
-                        <div class="form-check">
-                            <label class="form-check-label" for="copy">
-                                Send copy to yourself&nbsp;
-                            </label>
-                            <input type="checkbox" value="1" name="copy" id="copy">&nbsp;&nbsp;
-                            <button type="submit" class="btn btn-primary">Send Email to US</button>
+                    <div class="row">
+                        <div class="col">
+                            <div id="res-message" class="text-info"></div>
+                        </div>
+                        <div class="col">
+                            <div class="text-end">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="copy">
+                                        Send copy to yourself&nbsp;
+                                    </label>
+                                    <input type="checkbox" value="1" name="copy" id="copy">&nbsp;&nbsp;
+                                    <button type="submit" class="btn btn-primary">Send Email to US</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
-                <div id="err-message" class="text-danger text-center"></div>
             </div>
         </section>
     </main>
@@ -226,6 +232,7 @@
     <script>
         function onSubmit(e) {
             e.preventDefault();
+
             grecaptcha.enterprise.ready(function() {
                 grecaptcha.enterprise.execute('6Lei3ycmAAAAAOtTLzQmUltxVrtmF_oDrLzvtnOr', {action: 'submit'}).then (async function(token) {
                     const response = await fetch('verify.php', {
@@ -239,56 +246,48 @@
                     if (response.status === 200) {
                         sendMail()
                     } else {
-                        document.getElementById('err-message').innerHTML = 'Error: can not verify RECAPTCHA'
+                        const ele = document.getElementById('res-message')
+                        ele.innerHTML = 'Error: can not verify RECAPTCHA'
+                        ele.className = 'text-danger';
                     }
                 });
             });
         }
-        function sendMail () {
-            document.getElementById('err-message').innerHTML = 'OK'
+        async function sendMail () {
+            try {
+                const token = await getAuthToken('test', '1c3cr3@m')
+                const postData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    subject: document.getElementById('subject').value,
+                    message: document.getElementById('message').value,
+                    copy: document.getElementById('copy').value,
+                }
+
+                const response = await fetch(`${USER_API}/send`, {
+                    method: 'POST',
+                    headers: {
+                        ...HeaderJson,
+                        Authorization: 'Bearer ' + token
+                    },
+                    body: JSON.stringify(postData)
+                })
+                const result = await response.json()
+
+                if (response.status !== 200) {
+                    throw new Error(result.message)
+                }
+
+                const ele = document.getElementById('res-message')
+                ele.innerHTML = result.message
+                ele.className = 'text-primary';
+            } catch (error) {
+                const ele = document.getElementById('res-message')
+                ele.innerHTML = error
+                ele.className = 'text-danger';
+            }
         }
     </script>
-
-    <!-- load news -->
-    <!-- <script id="news-template" type="text/x-handlebars-template">
-        <div class="row" news>
-            {{#each data}}
-            <div class="col">
-                <div class="float-start me-3">
-                    <div class="date text-white text-center rounded-4 py-1">
-                        <h3 class="m-0">
-                            {{date}}
-                        </h3>
-                    </div>
-                    <a href="#" class="btn btn-link read-more ps-0" onclick="loadData('news/{{id}}', 'details-template', 'page-content')">
-                        Read more
-                    </a>
-                </div>
-                <div>
-                    <h3>{{name}}</h3>
-                    <p class="text-black-50">{{summary}}</p>
-                </div>
-            </div>
-            {{/each}}
-        </div>
-    </script>
-    <script>
-        loadData('news', 'news-template', 'news-ctn')
-    </script> -->
-
-    <!-- load detail -->
-    <!-- <script id="details-template" type="text/x-handlebars-template">
-        <section class="container-fluid" id="banner-small"></section>
-        {{#each data}}
-        <section class="container py-5">
-            <h1 class="pb-3">{{name}}</h1>
-            <div class="text-black-50">{{{description}}}</di>
-        </section>
-        {{/each}}
-    </script>
-    <script>
-        loadData('news', 'news-template', 'news-ctn')
-    </script> -->
 </body>
 
 </html>
