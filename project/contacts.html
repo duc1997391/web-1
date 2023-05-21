@@ -56,7 +56,8 @@
                             <a class="nav-link" href="contacts.html">Contacts</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modal-login">Login</a>
+                            <a class="nav-link link-login" href="#" data-bs-toggle="modal" data-bs-target="#modal-login">Login</a>
+                            <a class="nav-link link-logout" style="display: none;" href="#" onclick="logout()">Logout</a>
                         </li>
                     </ul>
                     <form class="d-flex my-2 my-lg-0 border rounded-pill" id="form-search">
@@ -175,8 +176,9 @@
                 <a class="nav-link" href="contacts.html" aria-current="page">Contacts</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" aria-current="page" data-bs-toggle="modal"
+                <a class="nav-link link-login" href="#" aria-current="page" data-bs-toggle="modal"
                     data-bs-target="#modal-login">Login</a>
+                <a class="nav-link link-logout" style="display: none;" href="#" aria-current="page" onclick="logout()">Logout</a>
             </li>
         </ul>
         <p class="text-white-50 m-0">Copyright &copy; 2023 by Tran Minh Duc - 20810206</p>
@@ -192,16 +194,19 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body pb-5">
-                    <form action="#" method="post" id="form-login">
+                    <form action="#" method="post" id="form-login" onsubmit="login(event)">
                         <h3 class="text-center">Login Form</h3>
                         <div class="mb-3">
-                            <input type="text" name="username" placeholder="Username" class="form-control">
+                            <input type="text" id="username" name="username" placeholder="Username" class="form-control" required>
                         </div>
                         <div class="mb-3">
-                            <input type="password" name="password" placeholder="Password" class="form-control">
+                            <input type="password" id="password" name="password" placeholder="Password" class="form-control" required>
                         </div>
                         <button type="submit" class="btn form-control">Login</button>
                     </form>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <div class="text-danger" id="login-err"></div>
                 </div>
             </div>
         </div>
