@@ -47,7 +47,7 @@
                             <a class="nav-link" href="about.html">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="gallery.html">Gallery</a>
+                            <a class="nav-link" href="gallery.html">Gallery</a>`
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="blogs.html">Blogs</a>
@@ -70,9 +70,86 @@
         </nav>
     </header>
 
-    <section class="container py-5">
-        <h1>Contacts</h1>
-    </section>
+    <main id="page-content">
+        <section id="banner-small"></section>
+
+        <section class="container py-5">
+            <h1>Contact</h1>
+            <div id="map"></div>
+
+            <div class="row py-3">
+                <div class="col">
+                    <h1>Address:</h1>
+                    <div class="py-3 text-black-50">
+                        227 Nguyen Van Cu Street <br>
+                        District 5<br>
+                        Hochiminh City, Vietnam
+                    </div>
+                </div>
+                <div class="col">
+                    <h1>Phones:</h1>
+                    <div class="py-3 text-black-50">
+                        (028) 62884499<br>
+                        (028) 73089899
+                    </div>
+                </div>
+                <div class="col">
+                    <h1>Email:</h1>
+                    <div class="py-3 text-black-50">
+                        <a href="mailto:info@hcmus.edu.vn">info@hcmus.edu.vn</a><br>
+                    </div>
+                </div>
+            </div>
+            <div class="py-3">
+                <h1>Miscellaneous information:</h1>
+                <p class="text-black-50">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint dolore aliquid, quibusdam delectus architecto assumenda. Ducimus suscipit consectetur cum magnam accusantium quam explicabo eveniet rerum. Optio incidunt in dolores ex.</p>
+                <p class="text-black-50"><i>Send an email. All fields with an * are required</i></p>
+                <form action="#" method="post" class="text-black-50" onsubmit="onSubmit(event)">
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                              <label for="" class="form-label">Name *</label>
+                              <input type="text"
+                                required
+                                class="form-control" name="name" id="name" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                              <label for="" class="form-label">Email *</label>
+                              <input type="email"
+                                required
+                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                class="form-control" name="email" id="email" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                              <label for="" class="form-label">Subject *</label>
+                              <input type="text"
+                                required
+                                class="form-control" name="subject" id="subject" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="" class="form-label">Message *</label>
+                      <textarea class="form-control" name="message" id="message" rows="3" required></textarea>
+                    </div>
+                    <div class="text-end">
+                        <div class="form-check">
+                            <label class="form-check-label" for="copy">
+                                Send copy to yourself&nbsp;
+                            </label>
+                            <input type="checkbox" value="1" name="copy" id="copy">&nbsp;&nbsp;
+                            <button type="submit" class="btn btn-primary">Send Email to US</button>
+                        </div>
+                    </div>
+                </form>
+                <div id="err-message" class="text-danger text-center"></div>
+            </div>
+        </section>
+    </main>
 
     <footer class="text-center container-fluid text-white py-3">
         <ul class="nav justify-content-center py-3" id="menu-footer">
@@ -134,6 +211,84 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
         integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
         </script>
+
+    <!-- handlebars -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
+        integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- open layer  -->
+    <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+    <script src="js/map.js"></script>
+
+    <!-- gg recaptcha -->
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lei3ycmAAAAAOtTLzQmUltxVrtmF_oDrLzvtnOr"></script>
+    <script>
+        function onSubmit(e) {
+            e.preventDefault();
+            grecaptcha.enterprise.ready(function() {
+                grecaptcha.enterprise.execute('6Lei3ycmAAAAAOtTLzQmUltxVrtmF_oDrLzvtnOr', {action: 'submit'}).then (async function(token) {
+                    const response = await fetch('verify.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({'g-token': token})
+                    })
+                    if (response.status === 200) {
+                        sendMail()
+                    } else {
+                        document.getElementById('err-message').innerHTML = 'Error: can not verify RECAPTCHA'
+                    }
+                });
+            });
+        }
+        function sendMail () {
+            document.getElementById('err-message').innerHTML = 'OK'
+        }
+    </script>
+
+    <!-- load news -->
+    <!-- <script id="news-template" type="text/x-handlebars-template">
+        <div class="row" news>
+            {{#each data}}
+            <div class="col">
+                <div class="float-start me-3">
+                    <div class="date text-white text-center rounded-4 py-1">
+                        <h3 class="m-0">
+                            {{date}}
+                        </h3>
+                    </div>
+                    <a href="#" class="btn btn-link read-more ps-0" onclick="loadData('news/{{id}}', 'details-template', 'page-content')">
+                        Read more
+                    </a>
+                </div>
+                <div>
+                    <h3>{{name}}</h3>
+                    <p class="text-black-50">{{summary}}</p>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </script>
+    <script>
+        loadData('news', 'news-template', 'news-ctn')
+    </script> -->
+
+    <!-- load detail -->
+    <!-- <script id="details-template" type="text/x-handlebars-template">
+        <section class="container-fluid" id="banner-small"></section>
+        {{#each data}}
+        <section class="container py-5">
+            <h1 class="pb-3">{{name}}</h1>
+            <div class="text-black-50">{{{description}}}</di>
+        </section>
+        {{/each}}
+    </script>
+    <script>
+        loadData('news', 'news-template', 'news-ctn')
+    </script> -->
 </body>
 
 </html>
