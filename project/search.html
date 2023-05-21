@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Changa+One:ital@0;1&display=swap" rel="stylesheet">
-    <title>Home</title>
+    <title>Search</title>
 
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/f61817c8de.js" crossorigin="anonymous"></script>
@@ -72,76 +72,6 @@
     </header>
 
     <main id="page-content">
-        <section class="container-fluid" id="banner">
-            <div class="container text-center text-white">
-                <div id="banner-crs" class="carousel slide" data-bs-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-bs-target="#banner-crs" data-bs-slide-to="0" class="active" aria-current="true"
-                            aria-label="First slide"></li>
-                        <li data-bs-target="#banner-crs" data-bs-slide-to="1" aria-label="Second slide"></li>
-                        <li data-bs-target="#banner-crs" data-bs-slide-to="2" aria-label="Third slide"></li>
-                    </ol>
-                    <div class="carousel-inner" role="listbox">
-                        <div class="carousel-item active">
-                            <h1>Web Development <br> for everyone</h1>
-                            <a href="gallery.html"
-                                class="btn text-bold text-uppercase text-white rounded-4 px-4 d-inline-block">See
-                                more</a>
-                        </div>
-                        <div class="carousel-item">
-                            <h1>20810206<br>Tran Minh Duc</h1>
-                        </div>
-                        <div class="carousel-item">
-                            <h1>Lap trinh web 1<br>DTTX - Hoc ky 2 - 2022-2023</h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="container" id="products">
-        </section>
-
-        <section class="container-fluid" id="about">
-            <div class="container">
-                <div class="row py-5">
-                    <div class="col-lg-9 col-md-8 col-sm-12 text-black-50">
-                        <h1 class="text-white mb-3">About Us</h1>
-                        <img class="float-start me-3" src="./images/icon-about.png" alt="about">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non fugiat vitae ipsa id numquam
-                            maiores nostrum tempora. Saepe delectus consequuntur corporis rem nemo. Hic ea est qui atque
-                            repudiandae recusandae!</p>
-                        <p>
-                            <span>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non fugiat vitae ipsa id
-                                numquam
-                                maiores nostrum tempora.
-                            </span>
-                            <a href="about.html" class="btn bnt-link read-more p-0">
-                                Read more
-                            </a>
-                        </p>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-12">
-                        <form action="" id="formSignup" class="border border-3 p-3 border-dark overflow-auto rounded-4">
-                            <h3 class="text-center text-white">Newsletter<br>Sign Up</h3>
-                            <p class="m-1 text-black-50">Please, write an e-mail:</p>
-                            <input type="email" name="email_signup" id="email_signup" class="form-control mb-2">
-                            <button type="submit"
-                                class="btn btn-dark text-white float-end text-uppercase rounded-4 px-4">
-                                <h4 class="m-0">Sign up</h4>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="container p-5" id="news">
-            <h1 class="text-black-50 mb-4">News</h1>
-            <div id="news-ctn">
-            </div>
-        </section>
     </main>
 
     <footer class="text-center container-fluid text-white py-3">
@@ -200,13 +130,10 @@
 
     <script src="js/20810206.js"></script>
     <script>
-        function setActiveImagePath (ele, imgPath, isActive = true) {
-            if (isActive) {
-                ele.src = imgPath.replace('.', '-active.')
-            } else {
-                ele.src = imgPath
-            }
-            ele.nextElementSibling.classList.toggle('web1-text-blue')
+        const searchParams = new URLSearchParams(location.search)
+        const keyword = searchParams.get('keyword')
+        if (keyword) {
+            loadData(`search?keyword=${keyword}`, 'search-template', 'page-content')
         }
     </script>
 
@@ -224,29 +151,9 @@
         integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <!-- load product -->
-    <script id="products-template" type="text/x-handlebars-template">
-        <div class="row text-center py-5">
-            {{#each data}}
-            <div class="col-lg-3 col-md-6 col-sm-12">
-                <img
-                    src="{{imagepath}}" alt="coffee"
-                    onmouseover="setActiveImagePath(this, '{{imagepath}}')"
-                    onmouseout="setActiveImagePath(this, '{{imagepath}}', false)"
-                >
-                <h3>{{name}}</h3>
-                <p class="mb-0 text-black-50">{{summary}}</p>
-                <a href="#" class="read-more btn btn-link" onclick="loadData('products/{{id}}', 'details-template', 'page-content')">Read more</a>
-            </div>
-            {{/each}}
-        </div>
-    </script>
-    <script>
-        loadData('products', 'products-template', 'products')
-    </script>
 
     <!-- load news -->
-    <script id="news-template" type="text/x-handlebars-template">
+    <!-- <script id="news-template" type="text/x-handlebars-template">
         <div class="row" news>
             {{#each data}}
             <div class="col">
@@ -270,20 +177,18 @@
     </script>
     <script>
         loadData('news', 'news-template', 'news-ctn')
-    </script>
+    </script> -->
 
     <!-- load detail -->
-    <script id="details-template" type="text/x-handlebars-template">
-        <section class="container-fluid" id="banner-small"></section>
-        {{#each data}}
-        <section class="container py-5">
-            <h1 class="pb-3">{{name}}</h1>
-            <div class="text-black-50">{{{description}}}</div>
-        </section>
-        {{/each}}
-    </script>
-    <script>
-        loadData('news', 'news-template', 'news-ctn')
+    <script id="search-template" type="text/x-handlebars-template">
+        <div class="container">
+            {{#each data}}
+            <div class="py-3">
+                <h1>{{name}}</h1>
+                <div  class="text-black-50">{{summary}}</div>
+            </div>
+            {{/each}}
+        </div>
     </script>
 </body>
 
