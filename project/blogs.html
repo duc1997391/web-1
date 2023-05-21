@@ -175,6 +175,7 @@
             const template = Handlebars.compile(source);
             const html = template(data);
             document.getElementById('blog-ctn').innerHTML = html;
+            history.replaceState({loadPage: page}, null, location.href)
         }
         Handlebars.registerHelper('formatDate', function (date) {
             const newDate = new Date(date);
@@ -191,7 +192,7 @@
             await loadData(`blogs/${blogId}`, 'detail-template', 'blog-ctn');
             checkLogin();
             if (gotoComments) {
-                window.location.href = '#comments';
+                scrollToComment()
             }
         }
         async function addComment (e, blogId) {
@@ -229,6 +230,10 @@
                 mssEle.className = 'text-danger';
             }
         }
+        function scrollToComment () {
+            console.log(document.getElementById('comments'))
+            document.getElementById('comments').scrollIntoView();
+        }
     </script>
 
     <!-- load blog category  -->
@@ -242,9 +247,7 @@
         </li>
         {{/each}}
     </script>
-    <script>
-        loadData('blogs-categories', 'blog-cat-template', 'blog-cat')
-    </script>
+
 
      <!-- load blog  -->
      <script id="blog-template" type="text/x-handlebars-template">
@@ -255,11 +258,11 @@
                 by {{author}} in
                 <a href="#">{{category.name}}</a>
                  on {{formatDate date}}.
-                <a href="#" onclick="loadBlogsDetail('{{id}}', true)">comments ({{comments.length}})</a>
+                <a href="#{{id}}" onclick="loadDetail('{{id}}', true)">comments ({{comments.length}})</a>
             </p>
             <img src="{{thumbpath}}" alt="" class="float-start me-3 border border-4">
             <p class="text-black-50">{{summary}}</p>
-            <a href="#" class="btn btn-link read-more ps-0" onclick="loadBlogsDetail('{{id}}')">Read more</a>
+            <a href="#{{id}}" class="btn btn-link read-more ps-0" onclick="loadDetail('{{id}}')">Read more</a>
         </div>
         {{/each}}
         {{#pagination page pageCount}}
@@ -281,9 +284,6 @@
         </nav>
         {{/pagination}}
     </script>
-    <script>
-        loadBlogs('blogs')
-    </script>
 
     <!-- load detail -->
     <script id="detail-template" type="text/x-handlebars-template">
@@ -293,7 +293,7 @@
             by {{author}} in
             <a href="#">{{category.name}}</a>
                 on {{formatDate date}}.
-            <a href="#">comments ({{comments.length}})</a>
+            <button class="btn btn-link p-0 d-inline" onclick="scrollToComment()">comments ({{comments.length}})</button>
         </p>
         <img src="{{imagepath}}" alt="{{name}}" class="float-start me-3 rounded-4">
         <div class="clearfix text-black-50">{{{description}}}</div>
@@ -343,7 +343,7 @@
                 </div>
             </form>
         </div>
-        <a name="comments"></a>
+        <a id="comments"></a>
         <div class="bg-dark text-white-50 p-2">
             COMMENTS ({{comments.length}})
         </div>
@@ -358,6 +358,41 @@
         </div>
         {{/each}}
     </script>
+
+    <script>
+        loadBlogs('blogs')
+    </script>
+    <script>
+        loadData('blogs-categories', 'blog-cat-template', 'blog-cat')
+    </script>
+
+<script>
+    if (!location.hash || location.hash === '#') {
+        loadPage();
+    } else {
+        loadDetail(location.hash.substr(1))
+    }
+    function loadPage(page = 1) {
+        loadBlogs('blogs', page)
+        loadData('blogs-categories', 'blog-cat-template', 'blog-cat')
+    }
+
+    async function loadDetail(blogId, gotoComments = false) {
+        history.replaceState({blogId}, null, location.href)
+
+        await loadBlogsDetail(blogId, gotoComments);
+        history.replaceState({blogId}, null, location.href)
+    }
+
+    window.onpopstate = (e) => {
+        const state = e.state;
+        if (state && state.loadPage) {
+            loadPage(state.loadPage)
+        } else if (state && state.blogId) {
+            loadDetail(state.blogId);
+        }
+    }
+</script>
 </body>
 
 </html>
