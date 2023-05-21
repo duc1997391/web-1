@@ -151,42 +151,28 @@
         integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
-    <!-- load news -->
-    <!-- <script id="news-template" type="text/x-handlebars-template">
-        <div class="row" news>
-            {{#each data}}
-            <div class="col">
-                <div class="float-start me-3">
-                    <div class="date text-white text-center rounded-4 py-1">
-                        <h3 class="m-0">
-                            {{date}}
-                        </h3>
-                    </div>
-                    <a href="#" class="btn btn-link read-more ps-0" onclick="loadData('news/{{id}}', 'details-template', 'page-content')">
-                        Read more
-                    </a>
-                </div>
-                <div>
-                    <h3>{{name}}</h3>
-                    <p class="text-black-50">{{summary}}</p>
-                </div>
-            </div>
-            {{/each}}
-        </div>
-    </script>
-    <script>
-        loadData('news', 'news-template', 'news-ctn')
-    </script> -->
-
     <!-- load detail -->
     <script id="search-template" type="text/x-handlebars-template">
         <div class="container">
             {{#each data}}
             <div class="py-3">
-                <h1>{{name}}</h1>
+                <a href="#" class="text-decoration-none" onclick="loadData('{{type}}/{{id}}', 'detail-template', 'page-content')">
+                    <h1 class="text-black">{{name}}</h1>
+                </a>
                 <div  class="text-black-50">{{summary}}</div>
             </div>
+            {{/each}}
+        </div>
+    </script>
+
+    <script id="detail-template" type="text/x-handlebars-template">
+        <div class="container">
+            {{#each data}}
+            <h1>{{name}}</h1>
+            {{#if imagepath}}
+            <img src="{{imagepath}}" alt="{{name}}" class="float-start me-3">
+            {{/if}}
+            <div class="text-black-50">{{{description}}}</div>
             {{/each}}
         </div>
     </script>
