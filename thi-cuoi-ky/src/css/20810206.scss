@@ -1,0 +1,9 @@
+:root {
+  --nau: rgba(47, 23, 15, 0.9);
+  --cam: #E6A756;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--nau);
+}
