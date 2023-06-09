@@ -23,13 +23,8 @@
       <a class="nav-link disabled" href="#">Disabled link</a>
     </nav>
   </header>
-  <main>
-    <div class="mb-3">
-      <label for="" class="form-label">Name</label>
-      <input type="text"
-        class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
-      <small id="helpId" class="form-text text-muted">Help text</small>
-    </div>
+  <main id="main">
+    
   </main>
   <footer>
     <!-- place footer here -->
@@ -50,26 +45,26 @@
   <!-- handlebars -->
   <script src="./vendor/handlebarjs/handlebars.min-v4.7.7.js"></script>
 
+  <script src="./vendor/data.js"></script>
+  <script src="./js/20810206.js"></script>
+
   <!-- load product -->
-  <!-- <script id="products-template" type="text/x-handlebars-template">
-    <div class="row text-center py-5">
+  <script id="products-template" type="text/x-handlebars-template">
+    <div class="text-center py-5">
         {{#each data}}
         <div class="col-lg-3 col-md-6 col-sm-12">
             <img
-                src="{{imagepath}}" alt="coffee"
-                onmouseover="setActiveImagePath(this, '{{imagepath}}')"
-                onmouseout="setActiveImagePath(this, '{{imagepath}}', false)"
+                src="{{imagepath}}" alt="{{title}}"
             >
-            <h3>{{name}}</h3>
-            <p class="mb-0 text-black-50">{{summary}}</p>
-            <a href="#" class="read-more btn btn-link" onclick="loadData('products/{{id}}', 'details-template', 'page-content')">Read more</a>
+            <h3>{{title}}</h3>
+            <p class="mb-0 text-black-50">{{slogan}}</p>
         </div>
         {{/each}}
     </div>
 </script>
 <script>
-    loadData('products', 'products-template', 'products')
-</script> -->
+    loadData('products-template', 'main')
+</script>
 </body>
 
 </html>
